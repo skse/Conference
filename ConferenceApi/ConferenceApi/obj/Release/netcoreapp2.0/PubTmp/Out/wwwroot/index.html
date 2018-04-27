@@ -1,0 +1,223 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Conferences web interface</title>
+    <style>
+        input[type='submit'], button, [aria-label] {
+            cursor: pointer;
+        }
+
+        input[type=text] {
+            display: block;
+            width: 100%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            border: 2px solid #3CBC8D;
+            border-radius: 10px;
+            box-sizing: border-box;
+        }
+
+        input[type=button], input[type=submit], input[type=reset] {
+            display: block;
+            width: 100%;
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 16px 32px;
+            text-decoration: none;
+            margin: 4px 0;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        table {
+            min-width: 580px;
+            font-family: sans-serif;
+            border: 1px solid;
+            border-collapse: collapse;
+            margin: 4px 0 50px;
+        }
+
+        h1 {
+            font-family: sans-serif;
+            margin: 50px;
+        }
+
+        h3 {
+            font-family: sans-serif;
+        }
+
+        th {
+            background-color: #4CAF50;
+            border: 2px solid #4CAF50;
+            color: white;
+            font-size: 0.875em;
+            font-weight: normal;
+            padding: 16px 32px;
+        }
+
+        td {
+            border: 2px solid #3CBC8D;
+            padding: 12px 20px;
+            font-size: 0.875em;
+            font-family: sans-serif;
+        }
+
+        html, body {
+            height: 100%;
+        }
+
+        html {
+            display: table;
+            margin: auto;
+        }
+
+        body {
+            font-size: 100%;
+            display: table-cell;
+            vertical-align: middle;
+        }
+    </style>
+    <script src="./js/jquery-3.3.1.min.js"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous">
+    </script>
+    <script src="./js/jquery.validate.min.js"
+            integrity="sha256-F6h55Qw6sweK+t7SiOJX+2bpSAa3b/fnlrVCJvmEj1A=" crossorigin="anonymous">
+    </script>
+    <script src="./js/jquery.validate.unobtrusive.min.js"
+            integrity="sha256-paoxpct33kY9fpQlvgC8IokjGq8iqYaVFawgFPg8oz0=" crossorigin="anonymous">        
+    </script>
+</head>
+<body>
+    <h1 id="mlabel" align="center">Conferences web interface</h1>
+    <h3>Add your conference</h3>
+    
+    <form id="mform" action="javascript:void(0);" method="POST">
+        <input data-msg-required="The Section field is required."
+               data-msg-maxlength="The field Section must be a string with a maximum length of 5."
+               data-rule-maxlength="5"
+               data-rule-required="true"
+               id="Section" name="Section" type="text" placeholder="New section" />
+        <input data-msg-required="The Name field is required."
+               data-msg-maxlength="The field Name must be a string with a maximum length of 20."
+               data-rule-maxlength="20"
+               data-rule-required="true"
+               id="Name" name="Name" type="text" placeholder="New name" />
+        <input data-msg-required="The City field is required."
+               data-msg-maxlength="The field City must be a string with a maximum length of 20."
+               data-rule-maxlength="20"
+               data-rule-required="true"
+               id="City" name="City" type="text" placeholder="New city" />
+        <input data-msg-required="The Location field is required."
+               data-msg-maxlength="The field Location must be a string with a maximum length of 50."
+               data-rule-maxlength="50"
+               data-rule-required="true"
+               id="Location" name="Location" type="text" placeholder="New location" />
+        <input type="submit" value="Add">
+    </form>
+
+    <p id="counter"></p>
+    
+    <input type="button" value="Update" onclick="getData()">
+
+    <table>
+        <tr>
+            <th>Section</th>
+            <th>Name</th>
+            <th>City</th>
+            <th>Location</th>
+        </tr>
+        <tbody id="conf"></tbody>
+    </table>
+
+<script>
+    $.ajaxSetup({
+        cache: false
+    });
+    $("#mform").validate({
+        errorPlacement: function (error, element) {
+            element.val('');
+            element.attr("placeholder", error.text());
+        },
+        submitHandler: function () {
+            addItem();
+            fanim("This entry is valid!");
+        }
+    });
+    function fanim(tdata) {
+        window.$("#mlabel").fadeOut(function () {
+            window.$(this).text(tdata);
+        }).fadeIn().fadeOut(function () {
+            window.$(this).text("Conferences web interface");
+        }).fadeIn();
+    }
+    var uri = 'conference';
+    var conf = null;
+    function getCount(data) {
+        var clabel = window.$('#counter');
+        var name = 'conference exists';
+        if (data) {
+            if (data > 1) {
+                name = 'conferences exist';
+            }
+            clabel.text(data + ' ' + name);
+        } else {
+            clabel.html('No ' + name);
+        }
+    };
+
+    $(document).ready(function () {
+        getData();
+    });
+
+    function getData() {
+        window.$.ajax({
+            cache: false,
+            type: 'GET',
+            url: 'conference/info',
+            success: function (data) {
+                window.$('#conf').empty();
+                getCount(data.length);
+                window.$.each(data, function (key, item) {
+                    window.$('<tr><td width="20%">' + item.section + '</td><td width="40%">' + item.info.name + '</td>' +
+                        '<td width="20%">' + item.info.city + '</td><td width="20%">' + item.info.location +
+                        '</td></tr>').appendTo(window.$('#conf'));
+                });
+                conf = data;
+            }
+        });
+        fanim("Information has been updated!");
+    };
+
+    function addItem() {
+        var item = {
+            'Name': window.$('#Name').val(),
+            'City': window.$('#City').val(),
+            'Location': window.$('#Location').val()
+        };
+        
+        window.$.ajax({
+            type: 'post',
+            accepts: 'application/json',
+            url: uri + '/' + window.$('#Section').val() + '/info',
+            contentType: 'application/json',
+            data: JSON.stringify(item),
+            success: function () {
+                getData();
+                window.$('#Section').val('').attr("placeholder", "New section");
+                window.$('#Name').val('').attr("placeholder", "New name");
+                window.$('#City').val('').attr("placeholder", "New city");
+                window.$('#Location').val('').attr("placeholder", "New location");
+            },
+            error: function (jqXHR, exception, er) {
+                if (jqXHR.status === 404) {
+                    alert(exception + ": Couldn't add item - verify 'section' field (" + jqXHR.status + ' ' + er + ')');
+                } else
+                    alert(exception + ": Couldn't add item - verify data fields (" + jqXHR.status + ' ' + er + ')');
+            }
+        });
+    }
+</script>
+</body>
+</html>

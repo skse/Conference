@@ -1,0 +1,11 @@
+C:\Users\general\source\repos\ConferenceApi\ConferenceApi\bin\Release\netcoreapp2.0\ConferenceApi.deps.json
+C:\Users\general\source\repos\ConferenceApi\ConferenceApi\bin\Release\netcoreapp2.0\ConferenceApi.runtimeconfig.json
+C:\Users\general\source\repos\ConferenceApi\ConferenceApi\bin\Release\netcoreapp2.0\ConferenceApi.runtimeconfig.dev.json
+C:\Users\general\source\repos\ConferenceApi\ConferenceApi\bin\Release\netcoreapp2.0\ConferenceApi.dll
+C:\Users\general\source\repos\ConferenceApi\ConferenceApi\bin\Release\netcoreapp2.0\ConferenceApi.pdb
+C:\Users\general\source\repos\ConferenceApi\ConferenceApi\obj\Release\netcoreapp2.0\ConferenceApi.csprojResolveAssemblyReference.cache
+C:\Users\general\source\repos\ConferenceApi\ConferenceApi\obj\Release\netcoreapp2.0\ConferenceApi.csproj.CoreCompileInputs.cache
+C:\Users\general\source\repos\ConferenceApi\ConferenceApi\obj\Release\netcoreapp2.0\ConferenceApi.AssemblyInfoInputs.cache
+C:\Users\general\source\repos\ConferenceApi\ConferenceApi\obj\Release\netcoreapp2.0\ConferenceApi.AssemblyInfo.cs
+C:\Users\general\source\repos\ConferenceApi\ConferenceApi\obj\Release\netcoreapp2.0\ConferenceApi.dll
+C:\Users\general\source\repos\ConferenceApi\ConferenceApi\obj\Release\netcoreapp2.0\ConferenceApi.pdb
